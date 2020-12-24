@@ -36,7 +36,7 @@ struct SuperBlock
 	uint fullMemory = 0;
 	uint occupiedMemory = 0;
 	uint freeINodes = 0;
-	Inode inods[QUANTITY_OF_INODES] = {};
+	Inode inodes[QUANTITY_OF_INODES] = {};
 };
 
 class VFS
@@ -45,17 +45,26 @@ private:
 	fstream file;
 	SuperBlock superBlock;
 	Inode curBlock;
-	string curPath;
+	vector<string> path;
+	vector<Inode> iPath;
 	bool createFS();
+	Inode findFreeINode();
+	bool addBranch(string);
+	bool delBranch();
 public:
 	VFS(string);
 	~VFS();
+	string openFile();
+	bool saveFile(string);
 	bool createDir(string);
 	bool createFile(string);
 	bool renameDir(string, string);
 	bool renameFile(string, string);
 	bool deleteDir(string);
 	bool deleteFile(string);
+	bool back();
+	bool enterDir(string);
+	bool enterFile(string);
 	string getCurPath();
 	uint getAllMem();
 	uint getOccMem();
